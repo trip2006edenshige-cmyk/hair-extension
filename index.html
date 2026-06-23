@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>あなたに合うエクステ診断</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: #f8f1ed;
+      color: #4a3b35;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #fff8f5, #f2d8d4);
+      border-radius: 24px;
+      padding: 32px 22px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(120, 80, 70, 0.12);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin: 0 0 12px;
+      color: #7b514a;
+      letter-spacing: 0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 15px;
+      color: #6b5852;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin: 36px 0 16px;
+      color: #7b514a;
+      border-left: 5px solid #d6a59d;
+      padding-left: 10px;
+    }
+
+    .question-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 22px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 18px rgba(120, 80, 70, 0.08);
+    }
+
+    .question-card h2 {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #5a403a;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      border: 1px solid #e4c6c0;
+      background: #fffaf8;
+      color: #4a3b35;
+      padding: 14px 12px;
+      border-radius: 14px;
+      font-size: 15px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option-btn:hover {
+      background: #f5ddd8;
+    }
+
+    .option-btn.selected {
+      background: #d6a59d;
+      color: #ffffff;
+      border-color: #d6a59d;
+      font-weight: bold;
+    }
+
+    .diagnosis-btn {
+      display: block;
+      width: 100%;
+      margin: 28px 0;
+      padding: 16px;
+      border: none;
+      border-radius: 999px;
+      background: #9b6b63;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(120, 80, 70, 0.18);
+    }
+
+    .diagnosis-btn:hover {
+      background: #80554e;
+    }
+
+    .result {
+      display: none;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 26px 20px;
+      margin-top: 28px;
+      box-shadow: 0 8px 24px rgba(120, 80, 70, 0.12);
+      border: 2px solid #e6c8c2;
+    }
+
+    .result h2 {
+      font-size: 24px;
+      color: #9b6b63;
+      margin: 0 0 12px;
+      text-align: center;
+    }
+
+    .result h3 {
+      color: #7b514a;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .result ul {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #f2d8d4;
+      color: #7b514a;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin: 4px 4px 8px 0;
+      font-weight: bold;
+    }
+
+    .notice {
+      background: #fff8f5;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 14px;
+      margin-top: 18px;
+      color: #6b5852;
+    }
+
+    .footer-message {
+      text-align: center;
+      margin-top: 34px;
+      font-size: 15px;
+      color: #7b514a;
+      font-weight: bold;
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 23px;
+      }
+
+      .hero {
+        padding: 26px 18px;
+      }
+
+      .question-card h2 {
+        font-size: 16px;
+      }
+
+      .option-btn {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="hero">
+      <h1>あなたに合うエクステ診断</h1>
+      <p>
+        シール？羽？毛質ランクまで、あなたの希望に合わせて診断します♡<br>
+        直感で近いものを選ぶだけでOK！
+      </p>
+    </div>
+
+    <h2 class="section-title">5つの質問に答えて診断</h2>
+
+    <div class="question-card" data-question="1">
+      <h2>Q1. 今の気分に一番近いのは？</h2>
+      <div class="options">
+        <button class="option-btn" data-type="A">一気にロングにして雰囲気を変えたい</button>
+        <button class="option-btn" data-type="C">エクステってバレないくらい自然にしたい</button>
+        <button class="option-btn" data-type="A">夏休み・旅行・イベントだけ楽しみたい</button>
+        <button class="option-btn" data-type="D">前に失敗したから、今回はちゃんと選びたい</button>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="2">
+      <h2>Q2. エクステで一番心配なことは？</h2>
+      <div class="options">
+        <button class="option-btn" data-type="C">すぐ取れないか心配</button>
+        <button class="option-btn" data-type="D">毛質が悪く見えないか心配</button>
+        <button class="option-btn" data-type="C">結んだ時に見えないか心配</button>
+        <button class="option-btn" data-type="A">金額が高くなりすぎないか心配</button>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="3">
+      <h2>Q3. どのくらい楽しみたい？</h2>
+      <div class="options">
+        <button class="option-btn" data-type="A">1ヶ月くらい</button>
+        <button class="option-btn" data-type="B">1〜2ヶ月</button>
+        <button class="option-btn" data-type="C">2〜3ヶ月</button>
+        <button class="option-btn" data-type="D">外してまた使えるなら使いたい</button>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="4">
+      <h2>Q4. 普段よくする髪型は？</h2>
+      <div class="options">
+        <button class="option-btn" data-type="A">下ろすことが多い</button>
+        <button class="option-btn" data-type="B">巻き髪が多い</button>
+        <button class="option-btn" data-type="C">結ぶことが多い</button>
+        <button class="option-btn" data-type="D">アレンジもいろいろ楽しみたい</button>
+      </div>
+    </div>
+
+    <div class="question-card" data-question="5">
+      <h2>Q5. 予算のイメージは？</h2>
+      <div class="options">
+        <button class="option-btn" data-type="A">できるだけ安くしたい</button>
+        <button class="option-btn" data-type="B">安さも仕上がりもどっちも大事</button>
+        <button class="option-btn" data-type="C">少し高くても自然さ重視</button>
+        <button class="option-btn" data-type="D">長く使えて結果的にお得な方がいい</button>
+      </div>
+    </div>
+
+    <button class="diagnosis-btn" onclick="showResult()">診断結果を見る</button>
+
+    <div id="result" class="result"></div>
+
+    <div class="footer-message">
+      診断結果をスタッフに見せるだけでOK♡<br>
+      あなたに合う種類・本数・毛質ランクをご提案します。
+    </div>
+
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll(".option-btn");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const questionCard = button.closest(".question-card");
+        const optionButtons = questionCard.querySelectorAll(".option-btn");
+
+        optionButtons.forEach(btn => btn.classList.remove("selected"));
+        button.classList.add("selected");
+      });
+    });
+
+    function showResult() {
+      const selectedButtons = document.querySelectorAll(".option-btn.selected");
+
+      if (selectedButtons.length < 5) {
+        alert("すべての質問に答えてください♡");
+        return;
+      }
+
+      const score = {
+        A: 0,
+        B: 0,
+        C: 0,
+        D: 0
+      };
+
+      selectedButtons.forEach(button => {
+        const type = button.dataset.type;
+        score[type]++;
+      });
+
+      let resultType = "A";
+      let maxScore = 0;
+
+      for (const type in score) {
+        if (score[type] > maxScore) {
+          maxScore = score[type];
+          resultType = type;
+        }
+      }
+
+      const resultBox = document.getElementById("result");
+
+      const results = {
+        A: `
+          <h2>お試しイメチェンタイプ</h2>
+          <span class="tag">シールエクステ</span>
+          <span class="tag">スタンダード〜ミドル毛質</span>
+
+          <h3>おすすめ</h3>
+          <ul>
+            <li>シールエクステ</li>
+            <li>毛質ランク：スタンダード〜ミドル</li>
+          </ul>
+
+          <h3>理由</h3>
+          <ul>
+            <li>短期間で雰囲気を変えやすい</li>
+            <li>初めてでも挑戦しやすい</li>
+            <li>予算を抑えやすい</li>
+          </ul>
+
+          <div class="notice">
+            まずは気軽にロングを楽しみたい方におすすめです。
+            夏休み・旅行・イベント前のイメチェンにも向いています。
+          </div>
+        `,
+
+        B: `
+          <h2>自然さバランスタイプ</h2>
+          <span class="tag">シール上位毛質</span>
+          <span class="tag">羽エクステS</span>
+          <span class="tag">ミドル〜高級人毛</span>
+
+          <h3>おすすめ</h3>
+          <ul>
+            <li>シールエクステ上位毛質</li>
+            <li>または羽エクステS</li>
+            <li>毛質ランク：ミドル〜高級人毛</li>
+          </ul>
+
+          <h3>理由</h3>
+          <ul>
+            <li>価格と仕上がりのバランスが良い</li>
+            <li>自然さも大事にできる</li>
+            <li>初めてでも選びやすい</li>
+          </ul>
+
+          <div class="notice">
+            安さだけでなく、仕上がりの綺麗さも大切にしたい方におすすめです。
+          </div>
+        `,
+
+        C: `
+          <h2>バレたくない自然派タイプ</h2>
+          <span class="tag">羽エクステ</span>
+          <span class="tag">高級人毛</span>
+          <span class="tag">自然な馴染み</span>
+
+          <h3>おすすめ</h3>
+          <ul>
+            <li>羽エクステ</li>
+            <li>毛質ランク：高級人毛〜無加工毛エクステ®</li>
+          </ul>
+
+          <h3>理由</h3>
+          <ul>
+            <li>結んだ時や動いた時に自然に見せやすい</li>
+            <li>エクステ感を出したくない方に向いている</li>
+            <li>馴染み重視の方におすすめ</li>
+          </ul>
+
+          <div class="notice">
+            「エクステってバレたくない」「自然にロングにしたい」方にぴったりです。
+          </div>
+        `,
+
+        D: `
+          <h2>本格こだわりタイプ</h2>
+          <span class="tag">羽エクステW</span>
+          <span class="tag">無加工毛エクステ®</span>
+          <span class="tag">長期コスパ重視</span>
+
+          <h3>おすすめ</h3>
+          <ul>
+            <li>羽エクステW</li>
+            <li>毛質ランク：無加工毛エクステ®</li>
+          </ul>
+
+          <h3>理由</h3>
+          <ul>
+            <li>長く綺麗に使いたい方に向いている</li>
+            <li>毛質・持ち・再装着を重視できる</li>
+            <li>年間で見るとコスパを感じやすい</li>
+          </ul>
+
+          <div class="notice">
+            初回価格よりも、長く綺麗に使えることを重視する方におすすめです。
+          </div>
+        `
+      };
+
+      resultBox.innerHTML = results[resultType];
+      resultBox.style.display = "block";
+
+      resultBox.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  </script>
+</body>
+</html>
