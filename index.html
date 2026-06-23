@@ -18,6 +18,7 @@
   --text: #4a3b35;
   --sub: #6b5852;
   --gray: #eee;
+  --gold: #c5a46d;
 }
 
 * { box-sizing: border-box; }
@@ -188,6 +189,40 @@ body {
   color: var(--sub);
   font-size: 14px;
   margin: 0 0 18px;
+}
+
+.top-answer {
+  background: #fff;
+  border: 2px solid var(--gold);
+  border-radius: 22px;
+  padding: 18px;
+  margin: 18px 0;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(120, 80, 70, .08);
+}
+
+.top-answer .mini-label {
+  display: inline-block;
+  background: var(--gold);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.top-answer strong {
+  display: block;
+  color: var(--main-dark);
+  font-size: 20px;
+  margin: 5px 0;
+}
+
+.top-answer p {
+  margin: 8px 0 0;
+  color: var(--sub);
+  font-size: 14px;
 }
 
 .candidate-card {
@@ -391,6 +426,7 @@ body {
 
 .reserve-btn {
   background: #7b514a;
+  line-height: 1.5;
 }
 
 .reserve-btn span {
@@ -398,6 +434,23 @@ body {
   font-size: 12px;
   font-weight: normal;
   opacity: .9;
+}
+
+.final-cta {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #9b6b63, #7b514a);
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.final-cta small {
+  display: block;
+  margin-top: 6px;
+  font-weight: normal;
+  opacity: .92;
 }
 
 @media (max-width: 520px) {
@@ -420,7 +473,7 @@ body {
       <h1>あなたに合うエクステ診断</h1>
       <p>
         シール？羽？毛質ランクまで、あなたの希望に合わせておすすめ候補を診断します♡<br>
-        診断後に写真を任意でアップして、本数の目安も確認できます。
+        診断後に本数目安・スタイル・店舗予約まで確認できます。
       </p>
     </div>
 
@@ -447,9 +500,9 @@ body {
       <h2>Q2. エクステで心配なことは？</h2>
       <p class="question-note">最大2つまで選べます</p>
       <button class="option-btn" data-type="C">すぐ取れないか心配</button>
-      <button class="option-btn" data-type="D">毛先がパサついて見えないか心配</button>
+      <button class="option-btn" data-type="D">ちゃんと馴染むのか心配</button>
       <button class="option-btn" data-type="D">結んだ時に接合部が見えないか心配</button>
-      <button class="option-btn" data-type="A">まずは気軽に試せるか心配</button>
+      <button class="option-btn" data-type="A">予算に収まるか心配</button>
     </div>
 
     <div class="question" data-max="1">
@@ -500,6 +553,7 @@ const totalQuestions = questions.length;
 const products = {
   A: {
     product: 'ロイヤルレミーシールエクステ',
+    shortName: 'ロイヤルレミーシール',
     tags: ['初めての方におすすめ', '短期イメチェン向き', '試しやすい'],
     specs: {
       '毛質': '★★☆☆☆',
@@ -518,6 +572,7 @@ const products = {
 
   B: {
     product: 'プレミアムレミーシールエクステ',
+    shortName: 'プレミアムレミーシール',
     tags: ['バランス重視', '続けやすい', '仕上がりも綺麗'],
     specs: {
       '毛質': '★★★☆☆',
@@ -536,6 +591,7 @@ const products = {
 
   C: {
     product: 'バージンレミーシールエクステ',
+    shortName: 'バージンレミーシール',
     tags: ['毛質重視', '自然な仕上がり', '綺麗に馴染ませたい方へ'],
     specs: {
       '毛質': '★★★★☆',
@@ -554,6 +610,7 @@ const products = {
 
   D: {
     product: '【無加工毛エクステ】ダブル羽エクステ',
+    shortName: 'ダブル羽エクステ',
     tags: ['最高ランク毛質', '長く綺麗に使える', '目立ちにくさ重視'],
     specs: {
       '毛質': '★★★★★',
@@ -709,28 +766,38 @@ function renderCandidate(data, label, isRecommended) {
 }
 
 function renderTwoCandidates(sheetProduct, wingProduct, sheetType) {
-  const sheetLabel = 'あなたの回答に近いおすすめ候補';
-  const wingLabel = '質・持ち重視で比較したいおすすめ候補';
+  const sheetLabel = '第一候補';
+  const wingLabel = '質・持ち重視の比較候補';
 
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').innerHTML = `
     <div class="result-label">診断結果</div>
     <h2>あなたにおすすめのエクステ候補</h2>
+
+    <div class="top-answer">
+      <div class="mini-label">まずおすすめ</div>
+      <strong>${sheetProduct.product}</strong>
+      <p>
+        あなたの回答内容に一番近い候補です。<br>
+        ただし、長く綺麗に使いたい場合は【無加工毛エクステ】ダブル羽エクステもおすすめです。
+      </p>
+    </div>
+
     <p class="result-lead">
       この診断は確定ではなく、カウンセリング前のおすすめ目安です。<br>
       髪質・地毛の長さ・希望デザインに合わせて、最終的にスタッフがご提案します。
     </p>
 
-    ${renderCandidate(sheetProduct, sheetLabel, sheetType !== 'D')}
-    ${renderCandidate(wingProduct, wingLabel, true)}
+    ${renderCandidate(sheetProduct, sheetLabel, true)}
+    ${renderCandidate(wingProduct, wingLabel, false)}
 
     ${renderPhotoUploadSection()}
     ${renderInstagramSection()}
     ${renderReserveSection()}
 
-    <div class="notice">
-      迷った場合は、仕上がりの自然さ・持ち・長期的な満足度まで比較して選ぶのがおすすめです。
-      とくに長く綺麗に使いたい方は、【無加工毛エクステ】ダブル羽エクステも一緒にご相談ください。
+    <div class="final-cta">
+      診断結果と本数目安をスタッフに見せるだけで、あなたに合うエクステをスムーズにご提案できます♡
+      <small>迷った場合は、店舗で毛質・持ち・仕上がりを比較しながらご相談ください。</small>
     </div>
 
     <button class="reset-btn" onclick="resetDiagnosis()">もう一度診断する</button>
@@ -756,10 +823,10 @@ function renderTwoCandidates(sheetProduct, wingProduct, sheetType) {
 function renderPhotoUploadSection() {
   return `
     <div class="photo-section">
-      <h3>必要取付本数の目安チェック</h3>
+      <h3>次に、必要本数の目安をチェック</h3>
       <p class="result-lead">
-        写真アップロードは任意です。写真があると、来店前の相談がスムーズになります。<br>
-        今の髪の長さに近いものを選ぶだけでも、本数目安を確認できます。
+        写真は任意ですが、アップしていただくと来店前により近い本数をご提案しやすくなります。<br>
+        写真なしでも、今の髪の長さを選ぶだけで目安を確認できます。
       </p>
 
       <div class="photo-box">
@@ -800,22 +867,22 @@ function renderReserveSection() {
     <div class="reserve-section">
       <h3>最寄りのお店を予約する</h3>
       <p class="result-lead">
-        ご希望の店舗を選んで、そのまま予約ページへ進めます。
+        ご希望のエリアに近い店舗を選んで、そのまま予約ページへ進めます。
       </p>
 
       <a class="reserve-btn" href="https://beauty.hotpepper.jp/slnH000381028/?cstt=1" target="_blank" rel="noopener">
         エデン福岡　中洲店
-        <span>Hot Pepper Beautyで予約</span>
+        <span>中洲・博多方面の方へ</span>
       </a>
 
       <a class="reserve-btn" href="https://beauty.hotpepper.jp/slnH000357549/?cstt=2" target="_blank" rel="noopener">
         エデンメイド　天神店
-        <span>Hot Pepper Beautyで予約</span>
+        <span>天神・大名方面の方へ</span>
       </a>
 
       <a class="reserve-btn" href="https://beauty.hotpepper.jp/slnH000294359/?cstt=1" target="_blank" rel="noopener">
         エデンユートピア　折尾店
-        <span>Hot Pepper Beautyで予約</span>
+        <span>北九州・折尾方面の方へ</span>
       </a>
     </div>
   `;
